@@ -1,0 +1,3 @@
+[submodule "anomaly_detection"]
+	path = anomaly_detection
+	url = https://bitbucket.org/maciekwielgosz/anomaly_detection.git
