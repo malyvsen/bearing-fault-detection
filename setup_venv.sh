@@ -1,7 +1,7 @@
 #!/bin/bash
 virtualenv bearing_venv &&\
 source bearing_venv/bin/activate &&\
-pip install wheel ipykernel
+pip install wheel ipykernel tensorflow
 
 if $?
 then
