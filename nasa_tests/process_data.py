@@ -53,7 +53,7 @@ def filename_datetime(filename):
 # faultiness is an arbitrary value used to represent how bad a bearing system is doing
 # it is close to 0 most of the time, but rises to 1 when a fault is near
 def faultiness(days_until_fault, detectability_point=4, steepness=2):
-    return 1 / (1 + np.exp((-days_until_fault - detectability_point) * steepness))
+    return 1 / (1 + np.exp((days_until_fault - detectability_point) * steepness))
 
 
 
