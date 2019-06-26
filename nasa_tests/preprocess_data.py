@@ -48,7 +48,7 @@ def iterate_dir(dir, line_ratio=None):
 def iterate_file(file_path, line_ratio=None):
     with open(file_path, 'r') as file:
         for row in itertools.islice(csv.reader(file, delimiter='\t'), 0, None, line_ratio):
-            yield [float(x) for x in row]
+            yield [float(x) for x in itertools.islice(row, 0, None, 2 if len(row) == 8 else 1)]
 
 
 def filename_datetime(filename):
