@@ -1,0 +1,65 @@
+{
+    "setup":
+    {
+        "model": "analysta.models.x2y.RNNModel"
+    },
+
+    "data":
+    {
+        "input_channels": [3, 4, 5, 6],
+        "output_channels": [2],
+        "channels_names": ["timestamp", "days_remaining", "faultiness", "b0", "b1", "b2", "b3"],
+        "train_paths":
+        [
+            "test_1_ok_0.npy",
+            "test_1_ok_1.npy",
+            "test_1_fault_0.npy",
+            "test_1_fault_1.npy",
+            "test_2_ok_0.npy",
+            "test_2_ok_1.npy",
+            "test_2_fault_0.npy",
+            "test_2_fault_1.npy",
+            "test_3_ok_0.npy",
+            "test_3_ok_1.npy",
+            "test_3_fault_0.npy",
+            "test_3_fault_1.npy"
+        ],
+        "val_paths":
+        [
+            "test_1_ok_2.npy",
+            "test_1_fault_2.npy",
+            "test_2_ok_2.npy",
+            "test_2_fault_2.npy",
+            "test_3_ok_2.npy",
+            "test_3_fault_2.npy"
+        ],
+        "test_paths":
+        [
+            "test_1_ok_3.npy",
+            "test_1_fault_3.npy",
+            "test_2_ok_3.npy",
+            "test_2_fault_3.npy",
+            "test_3_ok_3.npy",
+            "test_3_fault_3.npy"
+        ],
+        "train_paths_prefix": "data/preprocessed",
+        "val_paths_prefix": "data/preprocessed",
+        "test_paths_prefix": "data/preprocessed",
+        "mmap_mode": null
+    },
+
+    "preparation":
+    {
+        "look_back": 64,
+        "batch_size": 1024
+    },
+
+    "model":
+    {
+        "max_nb_epochs": 30,
+        "cells": [32],
+        "rnn_class": "keras.layers.LSTM"
+    },
+
+    "analyzer": {"disabled": true}
+}
