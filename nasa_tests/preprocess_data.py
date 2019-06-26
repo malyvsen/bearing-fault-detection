@@ -14,9 +14,9 @@ def preprocess_data(in_path='data/IMS', out_path='data/preprocessed', out_freque
         data_path = os.path.join(in_path, data_dir)
         zero_faultiness, full_faultiness = read_dir(data_path, line_ratio)
         for chunk_id, chunk in enumerate(np.array_split(zero_faultiness, files_per_episode)):
-            np.save(os.path.join(out_path, f'test_{test_id + 1}/zero_faultiness_{chunk_id}.npy'), chunk)
+            np.save(os.path.join(out_path, f'test_{test_id + 1}_ok_{chunk_id}.npy'), chunk)
         for chunk_id, chunk in enumerate(np.array_split(full_faultiness, files_per_episode)):
-            np.save(os.path.join(out_path, f'test_{test_id + 1}/full_faultiness_{chunk_id}.npy'), chunk)
+            np.save(os.path.join(out_path, f'test_{test_id + 1}_fault_{chunk_id}.npy'), chunk)
 
 
 def read_dir(dir, line_ratio=None):
