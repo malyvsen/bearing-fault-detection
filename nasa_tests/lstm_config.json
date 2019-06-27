@@ -51,12 +51,13 @@
     "preparation":
     {
         "look_back": 64,
-        "batch_size": 1024
+        "batch_size": 1024,
+        "out_grid": 2
     },
 
     "model":
     {
-        "max_nb_epochs": 30,
+        "max_nb_epoch": 32,
         "cells": [32],
         "rnn_class": "keras.layers.LSTM"
     },
