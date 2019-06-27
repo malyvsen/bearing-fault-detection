@@ -6,7 +6,7 @@ import numpy as np
 from tqdm import tqdm
 
 
-def preprocess_data(in_path='data/IMS', out_path='data/preprocessed', out_frequency=400, files_per_episode=4):
+def preprocess_data(in_path='data/IMS', out_path='data/preprocessed', out_frequency=400, files_per_episode=8):
     line_ratio = 20000 // out_frequency # the NASA dataset has a probing frequency of 20kHz
 
     for test_id, data_dir in enumerate(('1st_test', '2nd_test', '4th_test/txt')):
