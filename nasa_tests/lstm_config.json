@@ -66,9 +66,9 @@
             "test_3_ok_6.npy",
             "test_3_fault_6.npy"
         ],
-        "train_paths_prefix": "data/preprocessed",
-        "val_paths_prefix": "data/preprocessed",
-        "test_paths_prefix": "data/preprocessed",
+        "train_paths_prefix": "data/preprocessed/400_hz",
+        "val_paths_prefix": "data/preprocessed/400_hz",
+        "test_paths_prefix": "data/preprocessed/400_hz",
         "mmap_mode": null
     },
 
