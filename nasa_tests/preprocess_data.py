@@ -6,17 +6,23 @@ import numpy as np
 from tqdm import tqdm
 
 
-def preprocess_data(in_path='data/IMS', out_path='data/preprocessed', out_frequency=400, files_per_episode=8):
-    line_ratio = 20000 // out_frequency # the NASA dataset has a probing frequency of 20kHz
+original_frequency = 20000 # the NASA dataset has a probing frequency of 20kHz
+original_dirs = ('1st_test', '2nd_test', '4th_test/txt')
 
-    for test_id, data_dir in enumerate(('1st_test', '2nd_test', '4th_test/txt')):
+
+def preprocess_data(in_path='data/IMS', out_path='data/preprocessed', out_frequencies=(20000, 400, 200, 100), files_per_faultiness=8):
+    for test_id, data_dir in enumerate(original_dirs):
         print(f'Preprocessing data in {data_dir}')
         data_path = os.path.join(in_path, data_dir)
-        zero_faultiness, full_faultiness = read_dir(data_path, line_ratio)
-        for chunk_id, chunk in enumerate(np.array_split(zero_faultiness, files_per_episode)):
-            np.save(os.path.join(out_path, f'test_{test_id + 1}_ok_{chunk_id}.npy'), chunk)
-        for chunk_id, chunk in enumerate(np.array_split(full_faultiness, files_per_episode)):
-            np.save(os.path.join(out_path, f'test_{test_id + 1}_fault_{chunk_id}.npy'), chunk)
+        zero_faultiness, full_faultiness = read_dir(data_path)
+        for out_frequency in out_frequencies:
+            out_path_full = os.path.join(out_path, f'{out_frequency}_hz')
+            os.makedirs(out_path_full, exist_ok=True)
+            frequency_ratio = original_frequency // out_frequency
+            for chunk_id, chunk in enumerate(np.array_split(zero_faultiness[::frequency_ratio], files_per_faultiness)):
+                np.save(os.path.join(out_path_full, f'test_{test_id + 1}_ok_{chunk_id}.npy'), chunk)
+            for chunk_id, chunk in enumerate(np.array_split(full_faultiness[::frequency_ratio], files_per_faultiness)):
+                np.save(os.path.join(out_path_full, f'test_{test_id + 1}_fault_{chunk_id}.npy'), chunk)
 
 
 def read_dir(dir, line_ratio=None):
