@@ -1,0 +1,85 @@
+{
+    "setup":
+    {
+        "model": "analysta.models.x2binary.outlier.EmpiricalCovarianceModel"
+    },
+
+    "data":
+    {
+        "input_channels": [3, 4, 5, 6],
+        "output_channels": [2],
+        "channels_names": ["timestamp", "days_remaining", "faultiness", "b0", "b1", "b2", "b3"],
+        "train_paths":
+        [
+            "test_1_ok_0.npy",
+            "test_1_ok_1.npy",
+            "test_1_ok_2.npy",
+            "test_1_ok_3.npy",
+            "test_1_ok_5.npy",
+            "test_1_ok_7.npy",
+            "test_1_fault_0.npy",
+            "test_1_fault_1.npy",
+            "test_1_fault_2.npy",
+            "test_1_fault_3.npy",
+            "test_1_fault_5.npy",
+            "test_1_fault_7.npy",
+            "test_2_ok_0.npy",
+            "test_2_ok_1.npy",
+            "test_2_ok_2.npy",
+            "test_2_ok_3.npy",
+            "test_2_ok_5.npy",
+            "test_2_ok_7.npy",
+            "test_2_fault_0.npy",
+            "test_2_fault_1.npy",
+            "test_2_fault_2.npy",
+            "test_2_fault_3.npy",
+            "test_2_fault_5.npy",
+            "test_2_fault_7.npy",
+            "test_3_ok_0.npy",
+            "test_3_ok_1.npy",
+            "test_3_ok_2.npy",
+            "test_3_ok_3.npy",
+            "test_3_ok_5.npy",
+            "test_3_ok_7.npy",
+            "test_3_fault_0.npy",
+            "test_3_fault_1.npy",
+            "test_3_fault_2.npy",
+            "test_3_fault_3.npy",
+            "test_3_fault_5.npy",
+            "test_3_fault_7.npy"
+        ],
+        "val_paths":
+        [
+            "test_1_ok_4.npy",
+            "test_1_fault_4.npy",
+            "test_2_ok_4.npy",
+            "test_2_fault_4.npy",
+            "test_3_ok_4.npy",
+            "test_3_fault_4.npy"
+        ],
+        "test_paths":
+        [
+            "test_1_ok_6.npy",
+            "test_1_fault_6.npy",
+            "test_2_ok_6.npy",
+            "test_2_fault_6.npy",
+            "test_3_ok_6.npy",
+            "test_3_fault_6.npy"
+        ],
+        "train_paths_prefix": "data/preprocessed/400_hz",
+        "val_paths_prefix": "data/preprocessed/400_hz",
+        "test_paths_prefix": "data/preprocessed/400_hz",
+        "mmap_mode": null
+    },
+
+    "preparation":
+    {
+        "look_back": 64,
+        "batch_size": 1024,
+        "out_grid": 2
+    },
+
+    "model": {},
+
+    "analyzer": {"disabled": true}
+}
