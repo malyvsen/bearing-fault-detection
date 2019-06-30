@@ -105,4 +105,4 @@ venv.bak/
 
 # bearing project-specific
 bearing_venv/
-nasa_tests/data/IMS/
+nasa_tests/data/
