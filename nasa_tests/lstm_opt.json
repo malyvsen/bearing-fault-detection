@@ -1,0 +1,20 @@
+{
+    "function": "skopt.gp_minimize",
+    "function_kwargs": {},
+    "metric": "out.model.val.acc",
+    "optimize":
+    {
+        "model.cells":
+        {
+            "min": 8,
+            "max": 64,
+            "array_shape": [1]
+        },
+        "preparation.look_back":
+        {
+            "min": 16,
+            "max": 256,
+            "type": "integer"
+        }
+    }
+}
