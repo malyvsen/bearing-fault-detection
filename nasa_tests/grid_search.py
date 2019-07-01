@@ -9,8 +9,7 @@ from analysta.cli.model import run_single
 with open('lstm_config.json', 'r') as config_file:
     config = json.loads(config_file.read())
 
-if not os.path.exists('temp'):
-    os.mkdir('temp')
+os.makedirs('temp/results', exist_ok=True)
 config['data']['train_paths_prefix'] = '../' + config['data']['train_paths_prefix']
 config['data']['val_paths_prefix'] = '../' + config['data']['val_paths_prefix']
 config['data']['test_paths_prefix'] = '../' + config['data']['test_paths_prefix']
