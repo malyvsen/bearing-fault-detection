@@ -1,4 +1,5 @@
 import os
+import csv
 import json
 import numpy as np
 from tqdm import tqdm
@@ -24,8 +25,9 @@ for cells in 2 ** np.arange(4, 9):
             if 'report' not in filename:
                 continue
             with open('results/' + filename) as report_file:
-                report = json.load(report_file)
-                accuracies[f'{(cells, look_back)}'] = report['out.model.test.acc']
+                reader = csv.DictReader(report_file)
+                for line in reader:
+                    accuracies[f'{(cells, look_back)}'] = line['out.model.test.acc']
 
 with open('grid_search_results.json', 'w') as results_file:
     json.dump(accuracies, results_file)

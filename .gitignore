@@ -107,4 +107,3 @@ venv.bak/
 bearing_venv/
 nasa_tests/data/
 nasa_tests/temp_config.json
-nasa_tests/temp_results/
