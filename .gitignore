@@ -106,3 +106,4 @@ venv.bak/
 # bearing project-specific
 bearing_venv/
 nasa_tests/data/
+nasa_tests/temp/
