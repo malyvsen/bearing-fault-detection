@@ -26,7 +26,7 @@ for cells in tqdm(2 ** np.arange(4, 9)):
         with open('temp/config.json', 'w') as config_file:
             json.dump(config, config_file)
         results, _, _ = run_single('temp/config.json', results_dir='temp/results')
-        accuracies[(cells, look_back)] = results['out.model.test.acc']
+        accuracies[f'{(cells, look_back)}'] = results['out.model.test.acc']
 
 with open('grid_search_results.json') as results_file:
     json.dump(accuracies, results_file)
