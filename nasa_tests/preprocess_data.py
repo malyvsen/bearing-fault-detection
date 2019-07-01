@@ -26,7 +26,8 @@ def read_test(test):
         seconds_remaining = (test.end - file.datetime).total_seconds()
         faultiness_value = faultiness(file.datetime, test)
         for measurement in file:
-            augmented_measurement = [seconds_remaining, faultiness_value] + measurement
+            filtered_measurement = measurement[::len(measurement) // 4]
+            augmented_measurement = [seconds_remaining, faultiness_value] + filtered_measurement
             if faultiness_value == 0:
                 zero_faultiness.append(augmented_measurement)
             elif faultiness_value == 1:

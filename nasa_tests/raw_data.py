@@ -5,7 +5,7 @@ from datetime import datetime
 
 
 class Test:
-    def __init__(self, number, dir, faulty_bearings, frequency=20000):
+    def __init__(self, number, dir, num_channels, fault_channels, frequency=20000):
         self.number = number
         self.path = os.path.join('data/IMS', dir)
         self.filenames = sorted(os.listdir(self.path))
@@ -13,7 +13,8 @@ class Test:
         self.start = self.files[0].datetime
         self.end = self.files[-1].datetime
         self.duration = (self.end - self.start).total_seconds()
-        self.faulty_bearings = faulty_bearings
+        self.num_channels = num_channels
+        self.fault_channels = fault_channels
         self.frequency = frequency
 
     def __iter__(self):
@@ -29,11 +30,11 @@ class File:
     def __iter__(self):
         with open(self.path, 'r') as file:
             for row in csv.reader(file, delimiter='\t'):
-                yield [float(x) for x in itertools.islice(row, 0, None, 2 if len(row) == 8 else 1)]
+                yield [float(x) for x in row]
 
 
 tests = [
-    Test(1, dir='1st_test', faulty_bearings=(2, 3)),
-    Test(2, dir='2nd_test', faulty_bearings=(0,)),
-    Test(3, dir='4th_test/txt', faulty_bearings=(2,))
+    Test(1, dir='1st_test', num_channels=8, fault_channels=(4, 5, 6, 7)),
+    Test(2, dir='2nd_test', num_channels=4, fault_channels=(0,)),
+    Test(3, dir='4th_test/txt', num_channels=4, fault_channels=(2,))
 ]
