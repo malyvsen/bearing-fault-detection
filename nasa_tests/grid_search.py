@@ -17,7 +17,7 @@ config['data']['test_paths_prefix'] = '../' + config['data']['test_paths_prefix'
 accuracies = {}
 for cells in 2 ** np.arange(4, 9):
     cells = int(cells) # for serializability
-    config['model']['cells'] = cells
+    config['model']['cells'] = [cells]
     for look_back in 2 ** np.arange(4, 9):
         look_back = int(look_back) # for serializability
         config['preparation']['look_back'] = look_back
