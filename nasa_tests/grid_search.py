@@ -1,7 +1,7 @@
+import os
 import json
 import numpy as np
 from tqdm import tqdm
-from analysta.cli.model import run_single
 
 
 
@@ -10,17 +10,22 @@ with open('lstm_config.json', 'r') as config_file:
 
 
 accuracies = {}
-for cells in tqdm(2 ** np.arange(4, 9)):
+for cells in 2 ** np.arange(4, 9):
     cells = int(cells) # for serializability
     config['model']['cells'] = [cells]
 
-    for look_back in tqdm(2 ** np.arange(4, 9)):
+    for look_back in 2 ** np.arange(4, 9):
         look_back = int(look_back) # for serializability
         config['preparation']['look_back'] = look_back
         with open('temp_config.json', 'w') as config_file:
             json.dump(config, config_file)
-        results, _, _ = run_single('temp_config.json', results_dir='temp_results')
-        accuracies[f'{(cells, look_back)}'] = results['out.model.test.acc']
+        os.system('analysta -vv model single -c temp_config.json')
+        for filename in os.listdir('results'):
+            if 'report' not in filename:
+                continue
+            with open('results/' + filename) as report_file:
+                report = json.load(report_file)
+                accuracies[f'{(cells, look_back)}'] = report['out.model.test.acc']
 
 with open('grid_search_results.json', 'w') as results_file:
     json.dump(accuracies, results_file)
