@@ -10,6 +10,9 @@ with open('lstm_config.json', 'r') as config_file:
 
 if not os.path.exists('temp'):
     os.mkdir('temp')
+config['data']['train_paths_prefix'] = '../' + config['data']['train_paths_prefix']
+config['data']['val_paths_prefix'] = '../' + config['data']['val_paths_prefix']
+config['data']['test_paths_prefix'] = '../' + config['data']['test_paths_prefix']
 
 accuracies = {}
 for cells in 2 ** np.arange(4, 9):
