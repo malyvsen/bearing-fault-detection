@@ -1,0 +1,95 @@
+{
+    "setup":
+    {
+        "model": "analysta.models.x2y.RNNModel"
+    },
+
+    "preparation":
+    {
+        "look_back": 64,
+        "batch_size": 1024,
+        "out_buckets": 2
+    },
+
+    "model":
+    {
+        "max_nb_epoch": 32,
+        "cells": [128],
+        "rnn_class": "keras.layers.LSTM"
+    },
+
+    "analyzer": {"disabled": true},
+
+    "data":
+    {
+        "channels_names": ["seconds_remaining", "faultiness", "ch0", "ch1", "ch2", "ch3"],
+        "input_channels": [2, 3, 4, 5],
+        "output_channels": [1],
+        "train_paths_prefix": "data/preprocessed/400hz/four_channel",
+        "val_paths_prefix": "data/preprocessed/400hz/four_channel",
+        "test_paths_prefix": "data/preprocessed/400hz/four_channel",
+        "mmap_mode": null,
+        "train_paths":
+        [
+            "test1_ok0.npy",
+            "test1_ok1.npy",
+            "test1_ok2.npy",
+            "test1_ok3.npy",
+            "test1_ok5.npy",
+            "test1_ok7.npy",
+            
+            "test1_fault0.npy",
+            "test1_fault1.npy",
+            "test1_fault2.npy",
+            "test1_fault3.npy",
+            "test1_fault5.npy",
+            "test1_fault7.npy",
+
+            "test2_ok0.npy",
+            "test2_ok1.npy",
+            "test2_ok2.npy",
+            "test2_ok3.npy",
+            "test2_ok5.npy",
+            "test2_ok7.npy",
+
+            "test2_fault0.npy",
+            "test2_fault1.npy",
+            "test2_fault2.npy",
+            "test2_fault3.npy",
+            "test2_fault5.npy",
+            "test2_fault7.npy",
+
+            "test3_ok0.npy",
+            "test3_ok1.npy",
+            "test3_ok2.npy",
+            "test3_ok3.npy",
+            "test3_ok5.npy",
+            "test3_ok7.npy",
+
+            "test3_fault0.npy",
+            "test3_fault1.npy",
+            "test3_fault2.npy",
+            "test3_fault3.npy",
+            "test3_fault5.npy",
+            "test3_fault7.npy"
+        ],
+        "val_paths":
+        [
+            "test1_ok4.npy",
+            "test1_fault4.npy",
+            "test2_ok4.npy",
+            "test2_fault4.npy",
+            "test3_ok4.npy",
+            "test3_fault4.npy"
+        ],
+        "test_paths":
+        [
+            "test1_ok6.npy",
+            "test1_fault6.npy",
+            "test2_ok6.npy",
+            "test2_fault6.npy",
+            "test3_ok6.npy",
+            "test3_fault6.npy"
+        ],
+    }
+}
