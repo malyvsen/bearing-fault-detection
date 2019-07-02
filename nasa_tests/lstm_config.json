@@ -76,7 +76,7 @@
     {
         "look_back": 64,
         "batch_size": 1024,
-        "out_grid": 2
+        "out_buckets": 2
     },
 
     "model":
