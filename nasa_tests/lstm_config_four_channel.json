@@ -37,7 +37,7 @@
             "test1_ok3.npy",
             "test1_ok5.npy",
             "test1_ok7.npy",
-            
+
             "test1_fault0.npy",
             "test1_fault1.npy",
             "test1_fault2.npy",
@@ -90,6 +90,6 @@
             "test2_fault6.npy",
             "test3_ok6.npy",
             "test3_fault6.npy"
-        ],
+        ]
     }
 }
