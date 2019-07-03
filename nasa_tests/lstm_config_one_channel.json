@@ -14,7 +14,7 @@
     "model":
     {
         "max_nb_epoch": 32,
-        "cells": [128],
+        "cells": [64],
         "rnn_class": "keras.layers.LSTM"
     },
 
@@ -25,9 +25,9 @@
         "channels_names": ["seconds_remaining", "faultiness", "acceleration"],
         "input_channels": [2],
         "output_channels": [1],
-        "train_paths_prefix": "data/preprocessed/400hz/one_channel",
-        "val_paths_prefix": "data/preprocessed/400hz/one_channel",
-        "test_paths_prefix": "data/preprocessed/400hz/one_channel",
+        "train_paths_prefix": "data/preprocessed/100hz/one_channel",
+        "val_paths_prefix": "data/preprocessed/100hz/one_channel",
+        "test_paths_prefix": "data/preprocessed/100hz/one_channel",
         "mmap_mode": null,
         "train_paths":
         [
