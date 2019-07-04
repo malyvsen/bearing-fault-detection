@@ -14,7 +14,7 @@
     "model":
     {
         "max_nb_epoch": 32,
-        "cells": [128],
+        "cells": [32],
         "rnn_class": "keras.layers.LSTM"
     },
 
