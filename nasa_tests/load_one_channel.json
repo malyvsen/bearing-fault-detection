@@ -1,0 +1,53 @@
+{
+    "setup":
+    {
+        "model": "analysta.models.x2y.RNNModel"
+    },
+
+    "preparation":
+    {
+        "look_back": 64,
+        "batch_size": 1024,
+        "out_buckets": 2
+    },
+
+    "model":
+    {
+        "max_nb_epoch": 32,
+        "cells": [64],
+        "rnn_class": "keras.layers.LSTM",
+        "load": "/results_one_channel/model-a9967479-9d77-11e9-83bd-a42bb0cba26a.h5"
+    },
+
+    "analyzer": {"disabled": true},
+
+    "data":
+    {
+        "channels_names": ["seconds_remaining", "faultiness", "acceleration"],
+        "input_channels": [2],
+        "output_channels": [1],
+        "train_paths_prefix": "data/preprocessed/100hz/one_channel",
+        "val_paths_prefix": "data/preprocessed/100hz/one_channel",
+        "test_paths_prefix": "data/preprocessed/100hz/one_channel",
+        "mmap_mode": null,
+        "train_paths": [],
+        "val_paths": [],
+        "test_paths":
+        [
+            "test1_channel4_ok6.npy",
+            "test1_channel5_ok6.npy",
+            "test1_channel6_ok6.npy",
+            "test1_channel7_ok6.npy",
+            "test1_channel4_fault6.npy",
+            "test1_channel5_fault6.npy",
+            "test1_channel6_fault6.npy",
+            "test1_channel7_fault6.npy",
+
+            "test2_channel0_ok6.npy",
+            "test2_channel0_fault6.npy",
+
+            "test3_channel2_ok6.npy",
+            "test3_channel2_fault6.npy"
+        ]
+    }
+}
