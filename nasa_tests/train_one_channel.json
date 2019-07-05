@@ -6,7 +6,7 @@
 
     "preparation":
     {
-        "look_back": 64,
+        "look_back": 32,
         "batch_size": 1024,
         "out_buckets": 2
     },
@@ -14,7 +14,7 @@
     "model":
     {
         "max_nb_epoch": 32,
-        "cells": [64],
+        "cells": [16],
         "rnn_class": "keras.layers.LSTM"
     },
 
