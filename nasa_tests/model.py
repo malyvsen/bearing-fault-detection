@@ -15,25 +15,30 @@ def save_weights(dir):
 def get_weights(model):
     num_lstm_cells = int(model.layers[0].weights[0].shape[1] // 4)
 
-    input_weights = model.layers[0].get_weights()[0]
-    hidden_weights = model.layers[0].get_weights()[1]
+    lstm_input_weights = model.layers[0].get_weights()[0]
+    lstm_output_weights = model.layers[0].get_weights()[1]
     lstm_biases = model.layers[0].get_weights()[2]
+    dense_weights = model.layers[1].get_weights()[0]
+    dense_biases = model.layers[1].get_weights()[1]
 
     result = {}
-    result['W_ix'] = input_weights[:, :num_lstm_cells]
-    result['W_fx'] = input_weights[:, num_lstm_cells : num_lstm_cells * 2]
-    result['W_gx'] = input_weights[:, num_lstm_cells * 2 : num_lstm_cells * 3]
-    result['W_ox'] = input_weights[:, num_lstm_cells * 3:]
+    result['W_ix'] = lstm_input_weights[:, :num_lstm_cells]
+    result['W_fx'] = lstm_input_weights[:, num_lstm_cells : num_lstm_cells * 2]
+    result['W_gx'] = lstm_input_weights[:, num_lstm_cells * 2 : num_lstm_cells * 3]
+    result['W_ox'] = lstm_input_weights[:, num_lstm_cells * 3:]
 
-    result['W_ih'] = hidden_weights[:, :num_lstm_cells]
-    result['W_fh'] = hidden_weights[:, num_lstm_cells : num_lstm_cells * 2]
-    result['W_gh'] = hidden_weights[:, num_lstm_cells * 2 : num_lstm_cells * 3]
-    result['W_oh'] = hidden_weights[:, num_lstm_cells * 3:]
+    result['W_ih'] = lstm_output_weights[:, :num_lstm_cells]
+    result['W_fh'] = lstm_output_weights[:, num_lstm_cells : num_lstm_cells * 2]
+    result['W_gh'] = lstm_output_weights[:, num_lstm_cells * 2 : num_lstm_cells * 3]
+    result['W_oh'] = lstm_output_weights[:, num_lstm_cells * 3:]
 
     result['b_i '] = lstm_biases[:num_lstm_cells]
     result['b_f '] = lstm_biases[num_lstm_cells : num_lstm_cells * 2]
     result['b_g '] = lstm_biases[num_lstm_cells * 2 : num_lstm_cells * 3]
     result['b_o '] = lstm_biases[num_lstm_cells * 3:]
+
+    result['W_yh'] = dense_weights
+    result['b_y'] = dense_biases
 
     return result
 
