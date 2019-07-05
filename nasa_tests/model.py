@@ -1,15 +1,19 @@
 import os
 import json
+import numpy as np
 import tensorflow as tf
 from tensorflow import keras
 
 
-def save_weights(dir):
-    weights = get_weights(load_model(dir))
-    for key in weights:
-        weights[key] = weights[key].tolist()
-    with open(os.path.join(dir, 'model.json'), 'w') as out_file:
-        json.dump(weights, out_file, sort_keys=True, indent=4)
+def load_model(dir):
+    with open(os.path.join(dir, 'train.json')) as config_file:
+        config = json.load(config_file)
+
+    model = keras.models.Sequential()
+    model.add(keras.layers.LSTM(config['model']['cells'][0], input_dim=1))
+    model.add(keras.layers.Dense(config['preparation']['out_buckets'], activation='softmax'))
+    model.load_weights(os.path.join(dir, 'model.h5'))
+    return model
 
 
 def get_weights(model):
@@ -43,12 +47,16 @@ def get_weights(model):
     return result
 
 
-def load_model(dir):
-    with open(os.path.join(dir, 'train.json')) as config_file:
-        config = json.load(config_file)
+def save_weights(weights):
+    for key in weights:
+        weights[key] = weights[key].tolist()
+    with open(os.path.join(dir, 'model.json'), 'w') as out_file:
+        json.dump(weights, out_file, sort_keys=True, indent=4)
 
-    model = keras.models.Sequential()
-    model.add(keras.layers.LSTM(config['model']['cells'][0], input_dim=1))
-    model.add(keras.layers.Dense(config['preparation']['out_buckets'], activation='softmax'))
-    model.load_weights(os.path.join(dir, 'model.h5'))
-    return model
+
+def generate_samples(model, num_samples=16):
+    result = []
+    for i in range(num_samples):
+        input_sample = np.sin(np.linspace(0, np.random.geometric(0.05), 32))
+        result.append({'input': input_sample, 'output': model.predict(np.reshape(input_sample, (1, -1, 1)))})
+    return result
