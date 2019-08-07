@@ -22,16 +22,21 @@ class Spectrogram:
 
 
     def normalized(self, range=(0, 1)):
-        result_data = np.interp(self.data, (np.min(self.data), np.max(self.data)), range)
-        return type(self)(self.test, result_data)
-
-
-    def image(self, channel, downsampling=(4, 4)):
-        result = self.data[channel]
-        target_shape = np.array(result.shape) // np.array(downsampling)
-        result = skimage.transform.resize(result, target_shape, anti_aliasing=True)
-        result = quantile_filter(result)
+        result = type(self)(self.test, self.data)
+        result.data = np.interp(result.data, (np.min(result.data), np.max(result.data)), range)
         return result
+
+
+    def downsampled(self, downsampling):
+        result = type(self)(self.test, self.data)
+        for channel in range(result.test.num_channels):
+            target_shape = np.array(result.data[channel]) // np.array(downsampling)
+            result_data[channel] = skimage.transform.resize(result.data[channel], target_shape, anti_aliasing=True)
+        return result
+
+
+    def image(self, channel):
+        return quantile_filter(self.data[channel])
 
 
     def save_data(self, dir='data/spectrogram'):
@@ -53,4 +58,4 @@ if __name__ == '__main__':
     for test in raw_data.tests:
         spectrogram = Spectrogram(test)
         spectrogram.save_data()
-        spectrogram.save_images()
+        spectrogram.downsampled((4, 4)).save_images()
