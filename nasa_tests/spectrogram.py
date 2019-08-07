@@ -18,6 +18,7 @@ class Spectrogram:
             measurements = np.array([x for x in file])
             for channel in range(test.num_channels):
                 self.data[channel].append(np.abs(np.fft.rfft(measurements[:, channel])))
+        self.data = np.array(self.data)
 
 
     def normalized(self, range=(0, 1)):
