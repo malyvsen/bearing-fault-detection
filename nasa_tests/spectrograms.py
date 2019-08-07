@@ -3,6 +3,8 @@ import skimage
 import numpy as np
 from tqdm import tqdm
 import raw_data
+from utils import quantile_filter
+
 
 
 def spectrogram(test):
@@ -26,17 +28,6 @@ def save_spectrograms(tests=raw_data.tests, out_dir='spectrograms'):
             out_filepath = os.path.join(out_dir, f'test{test.number}_channel{channel}.png')
             skimage.io.imsave(out_filepath, spectrogram_image)
 
-
-def quantile_filter(image):
-    quantile_values = []
-    for quantile in np.linspace(0, 1, 256):
-        quantile_values.append(np.quantile(image, quantile))
-    quantile_values = np.array(quantile_values)
-    result = np.zeros_like(image)
-    for i, row in tqdm(enumerate(image)):
-        for j, pixel in enumerate(row):
-            result[i, j] = np.argmin(np.abs(quantile_values - pixel))
-    return result.astype(np.int32)
 
 
 if __name__ == '__main__':
