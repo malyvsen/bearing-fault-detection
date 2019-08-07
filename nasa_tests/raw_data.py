@@ -1,6 +1,5 @@
 import os
 import csv
-import itertools
 from datetime import datetime
 
 
@@ -19,6 +18,9 @@ class Test:
 
     def __iter__(self):
         return iter(self.files)
+
+    def __len__(self):
+        return len(self.files)
 
 
 class File:
