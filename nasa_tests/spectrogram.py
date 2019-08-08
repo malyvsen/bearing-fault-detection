@@ -27,11 +27,13 @@ class Spectrogram:
         return result
 
 
-    def downsampled(self, downsampling):
-        result = type(self)(self.test, np.moveaxis(self.data, [0, 1, 2], [1, 2, 0]))
-        target_shape = np.array(result.data.shape)[:2] // np.array(downsampling)
-        result_data = skimage.transform.resize(result.data, target_shape, anti_aliasing=True)
-        result.data = np.moveaxis(result.data, [1, 2, 0], [0, 1, 2])
+    def downsampled(self, downsampling=None, target_shape=None):
+        assert sum([downsampling is not None, target_shape is not None]) == 1
+        result = type(self)(self.test, np.moveaxis(self.data, [0, 1, 2], [2, 0, 1]))
+        if downsampling is not None:
+            target_shape = np.array(result.data.shape)[:2] // np.array(downsampling)
+        result.data = skimage.transform.resize(result.data, target_shape, anti_aliasing=True)
+        result.data = np.moveaxis(result.data, [2, 0, 1], [0, 1, 2])
         return result
 
 
