@@ -15,7 +15,7 @@ class Spectrogram:
             return
         self.data = [[] for i in range(test.num_channels)]
         for file in tqdm(test):
-            measurements = np.array([x for x in file])
+            measurements = file.numpy()
             for channel in range(test.num_channels):
                 self.data[channel].append(np.abs(np.fft.rfft(measurements[:, channel])))
         self.data = np.array(self.data)
