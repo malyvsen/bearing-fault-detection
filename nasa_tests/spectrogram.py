@@ -3,7 +3,7 @@ import skimage
 import numpy as np
 from tqdm import tqdm
 import raw_data
-from utils import quantile_filter
+import utils
 
 
 
@@ -35,8 +35,8 @@ class Spectrogram:
         return result
 
 
-    def image(self, channel):
-        return quantile_filter(self.data[channel])
+    def image(self, channel, filter=utils.quantile_filter):
+        return filter(self.data[channel])
 
 
     def save_data(self, dir='data/spectrograms'):
