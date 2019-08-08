@@ -83,7 +83,8 @@ class File:
     def __iter__(self):
         frequency_counter = 0
         if hasattr(self.test, 'cached_numpy'):
-            return iter(self.test.cached_numpy[self.id])
+            for row in self.test.cached_numpy[self.id]:
+                yield row
         with open(self.path, 'r') as file:
             for row in csv.reader(file, delimiter='\t'):
                 frequency_counter += self.test.frequency
