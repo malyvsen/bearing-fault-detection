@@ -14,7 +14,6 @@ saved_tests_dir = 'data/raw'
 saved_tests = []
 for root, directories, filenames in os.walk(saved_tests_dir):
     for filename in filenames:
-        print(f'loading {os.path.join(root, filename)}')
         saved_tests.append(Test.load(os.path.join(root, filename)))
 
 for id, test in enumerate(tests):
