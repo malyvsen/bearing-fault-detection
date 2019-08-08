@@ -28,10 +28,10 @@ class Spectrogram:
 
 
     def downsampled(self, downsampling):
-        result = type(self)(self.test, self.data)
-        for channel in range(result.test.num_channels):
-            target_shape = np.array(result.data[channel]) // np.array(downsampling)
-            result_data[channel] = skimage.transform.resize(result.data[channel], target_shape, anti_aliasing=True)
+        result = type(self)(self.test, np.moveaxis(self.data, [0, 1, 2], [1, 2, 0]))
+        target_shape = np.array(result.data.shape)[:2] // np.array(downsampling)
+        result_data = skimage.transform.resize(result.data, target_shape, anti_aliasing=True)
+        result.data = np.moveaxis(result.data, [1, 2, 0], [0, 1, 2])
         return result
 
 
