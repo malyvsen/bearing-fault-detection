@@ -39,14 +39,14 @@ class Spectrogram:
         return quantile_filter(self.data[channel])
 
 
-    def save_data(self, dir='data/spectrogram'):
+    def save_data(self, dir='data/spectrograms'):
         os.makedirs(dir, exist_ok=True)
         for channel in range(self.test.num_channels):
             path = os.path.join(dir, f'test{self.test.number}_channel{channel}.npy')
             np.save(path, self.data[channel])
 
 
-    def save_images(self, dir='spectrogram'):
+    def save_images(self, dir='spectrograms'):
         os.makedirs(dir, exist_ok=True)
         for channel in range(self.test.num_channels):
             path = os.path.join(dir, f'test{self.test.number}_channel{channel}.png')
