@@ -105,5 +105,5 @@ venv.bak/
 
 # bearing project-specific
 bearing_venv/
-nasa_tests/data/
-nasa_tests/temp_config.json
+bearing-fault-detection/data/
+bearing-fault-detection/temp_config.json
