@@ -13,3 +13,7 @@ def quantile_filter(image):
         for j, pixel in enumerate(row):
             result[i, j] = np.argmin(np.abs(quantile_values - pixel))
     return result.astype(np.int32)
+
+
+def pass_through(x):
+    return x

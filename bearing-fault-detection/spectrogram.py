@@ -1,6 +1,7 @@
 import os
 import skimage
 import numpy as np
+import matplotlib.pyplot as plt
 from tqdm import tqdm
 import raw_data
 import utils
@@ -53,6 +54,23 @@ class Spectrogram:
         for channel in range(self.test.num_channels):
             path = os.path.join(dir, f'test{self.test.number}_channel{channel}.png')
             skimage.io.imsave(path, self.image(channel))
+
+
+    def plot(self, channel, filter=utils.pass_through, title=None, **kwargs):
+        image_transposed = np.transpose(self.image(channel, filter=filter))
+        plt.imshow(image_transposed, **kwargs)
+        plt.xlabel('Time [hrs]')
+        num_xticks = 8
+        xticks_locations = np.linspace(0, image_transposed.shape[1], num_xticks)
+        xticks_labels = [int(np.round(x)) for x in np.linspace(0, self.test.duration / 60 / 60, num_xticks)]
+        plt.xticks(xticks_locations, xticks_labels)
+        plt.ylabel('Frequency [Hz]')
+        num_yticks = 4
+        yticks_locations = np.linspace(0, image_transposed.shape[0], num_yticks)
+        yticks_labels = [int(np.round(x)) for x in np.linspace(0, self.test.frequency / 2, num_yticks)]
+        plt.yticks(yticks_locations, yticks_labels)
+        plt.title(title if title is not None else f'Test {self.test.number}, channel {channel} @ {self.test.frequency} Hz')
+        plt.show()
 
 
 
