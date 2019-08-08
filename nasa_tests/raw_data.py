@@ -78,6 +78,10 @@ class File:
         self.id = id
 
 
+    def numpy(self):
+        return np.array([x for x in self])
+
+
     def __iter__(self):
         frequency_counter = 0
         if hasattr(self.test, 'cached_numpy'):
