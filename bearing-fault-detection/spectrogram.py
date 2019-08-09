@@ -49,14 +49,7 @@ class Spectrogram:
             np.save(path, self.data[channel])
 
 
-    def save_images(self, dir='spectrograms'):
-        os.makedirs(dir, exist_ok=True)
-        for channel in range(self.test.num_channels):
-            path = os.path.join(dir, f'test{self.test.number}_channel{channel}.png')
-            skimage.io.imsave(path, self.image(channel))
-
-
-    def plot(self, channel, filter=utils.pass_through, title=None, **kwargs):
+    def plot(self, channel, filter=utils.pass_through, title=None, show=True, save_as=None, **kwargs):
         image_transposed = np.transpose(self.image(channel, filter=filter))
         plt.imshow(image_transposed, **kwargs)
         plt.xlabel('Time [hrs]')
@@ -70,12 +63,24 @@ class Spectrogram:
         yticks_labels = [int(np.round(x)) for x in np.linspace(0, self.test.frequency / 2, num_yticks)]
         plt.yticks(yticks_locations, yticks_labels)
         plt.title(title if title is not None else f'Test {self.test.number}, channel {channel} @ {self.test.frequency} Hz')
-        plt.show()
+        if show:
+            plt.show()
+        if save_as is not None:
+            plt.savefig(save_as, bbox_inches='tight')
+
+
+    def save_plots(self, dir=None, **kwargs):
+        if dir is None:
+            dir = f'spectrograms/{test.frequency}hz'
+        os.makedirs(dir, exist_ok=True)
+        for channel in range(self.test.num_channels):
+            path = os.path.join(dir, f'test{self.test.number}_channel{channel}.png')
+            self.plot(channel, show=False, save_as=path, **kwargs)
 
 
 
 if __name__ == '__main__':
-    for test in raw_data.tests:
+    for test in raw_data.tests + raw_data.saved_tests:
         spectrogram = Spectrogram(test)
         spectrogram.save_data()
-        spectrogram.downsampled((4, 4)).save_images()
+        spectrogram.downsampled(target_shape=(512, 196)).save_plots(filter=utils.quantile_filter)
