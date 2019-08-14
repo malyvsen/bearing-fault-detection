@@ -74,7 +74,7 @@ class Spectrogram:
             dir = f'spectrograms/{test.frequency}hz'
         os.makedirs(dir, exist_ok=True)
         for channel in range(self.test.num_channels):
-            path = os.path.join(dir, f'test{self.test.number}_channel{channel}.png')
+            path = os.path.join(dir, f'test{self.test.number}_channel{channel}.svg')
             self.plot(channel, show=False, save_as=path, **kwargs)
 
 
