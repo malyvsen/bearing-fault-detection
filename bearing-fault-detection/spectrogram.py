@@ -52,7 +52,7 @@ class Spectrogram:
     def plot(self, channel, filter=utils.pass_through, title=None, show=True, save_as=None, **kwargs):
         image_transposed = np.transpose(self.image(channel, filter=filter))
         plt.imshow(image_transposed, **kwargs)
-        plt.xlabel('Time [hrs]')
+        plt.xlabel('Time [h]')
         num_xticks = 8
         xticks_locations = np.linspace(0, image_transposed.shape[1], num_xticks)
         xticks_labels = [int(np.round(x)) for x in np.linspace(0, self.test.duration / 60 / 60, num_xticks)]
