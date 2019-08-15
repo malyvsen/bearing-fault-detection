@@ -69,17 +69,6 @@ class Spectrogram:
         yticks_labels = [int(np.round(x)) for x in np.linspace(self.test.frequency / 2, 0, num_yticks)]
         plt.yticks(yticks_locations, yticks_labels)
 
-        num_colorticks = 4
-        colorticks_locations = np.linspace(np.min(image_filtered), np.max(image_filtered), num_colorticks)
-        colorticks_labels = []
-        for brightness in colorticks_locations:
-            index = np.unravel_index(np.argmin(np.abs(image_filtered - brightness)), image_filtered.shape)
-            amplitude = image_unfiltered[index]
-            colorticks_labels.append('{:.1f}'.format(amplitude))
-        colorbar = plt.colorbar(ticks=colorticks_locations)
-        colorbar.ax.set_ylabel('Vibration [g]')
-        colorbar.ax.set_yticklabels(colorticks_labels)
-
         plt.title(title if title is not None else f'Test {self.test.number}, channel {channel} @ {self.test.frequency} Hz')
         if show:
             plt.show()
