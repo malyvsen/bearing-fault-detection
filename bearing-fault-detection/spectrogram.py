@@ -52,7 +52,7 @@ class Spectrogram:
             np.save(path, self.data[channel])
 
 
-    def plot(self, channel, filter=utils.pass_through, show=True, save_as=None, **kwargs):
+    def plot(self, channel, filter=utils.pass_through, title=None, show=True, save_as=None, **kwargs):
         image_unfiltered = self.image(channel, filter=np.transpose)[::-1]
         image_filtered = filter(image_unfiltered)
         image_plot = plt.imshow(image_filtered, **kwargs)
