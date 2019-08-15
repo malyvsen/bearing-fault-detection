@@ -2,8 +2,10 @@ import os
 import skimage
 import numpy as np
 import matplotlib
-matplotlib.use('Agg')
+if __name__ == '__main__':
+    matplotlib.use('Agg')
 import matplotlib.pyplot as plt
+from mpl_toolkits.axes_grid1 import make_axes_locatable
 from tqdm import tqdm
 import raw_data
 import utils
@@ -30,7 +32,7 @@ class Spectrogram:
         return result
 
 
-    def downsampled(self, downsampling=None, target_shape=None):
+    def reshaped(self, downsampling=None, target_shape=None):
         assert sum([downsampling is not None, target_shape is not None]) == 1
         result = type(self)(self.test, np.moveaxis(self.data, [0, 1, 2], [2, 0, 1]))
         if downsampling is not None:
@@ -51,20 +53,36 @@ class Spectrogram:
             np.save(path, self.data[channel])
 
 
-    def plot(self, channel, filter=utils.pass_through, title=None, show=True, save_as=None, **kwargs):
-        image_transposed = np.transpose(self.image(channel, filter=filter))
-        plt.imshow(image_transposed, **kwargs)
+    def plot(self, channel, filter=utils.pass_through, show=True, save_as=None, **kwargs):
+        image_unfiltered = self.image(channel, filter=np.transpose)[::-1]
+        image_filtered = filter(image_unfiltered)
+        image_plot = plt.imshow(image_filtered, **kwargs)
+
         plt.xlabel('Time [h]')
         num_xticks = 8
-        xticks_locations = np.linspace(0, image_transposed.shape[1], num_xticks)
+        xticks_locations = np.linspace(0, image_filtered.shape[1], num_xticks)
         xticks_labels = [int(np.round(x)) for x in np.linspace(0, self.test.duration / 60 / 60, num_xticks)]
         plt.xticks(xticks_locations, xticks_labels)
+
         plt.ylabel('Frequency [Hz]')
         num_yticks = 4
-        yticks_locations = np.linspace(0, image_transposed.shape[0], num_yticks)
-        yticks_labels = [int(np.round(x)) for x in np.linspace(0, self.test.frequency / 2, num_yticks)]
+        yticks_locations = np.linspace(0, image_filtered.shape[0], num_yticks)
+        yticks_labels = [int(np.round(x)) for x in np.linspace(self.test.frequency / 2, 0, num_yticks)]
         plt.yticks(yticks_locations, yticks_labels)
-        plt.title(title if title is not None else f'Test {self.test.number}, channel {channel} @ {self.test.frequency} Hz')
+
+        num_colorticks = 4
+        colorticks_locations = np.linspace(np.min(image_filtered), np.max(image_filtered), num_colorticks)
+        colorticks_labels = []
+        for brightness in colorticks_locations:
+            index = np.unravel_index(np.argmin(np.abs(image_filtered - brightness)), image_filtered.shape)
+            amplitude = image_unfiltered[index]
+            colorticks_labels.append('{:.1f}'.format(amplitude))
+        ax_divider = make_axes_locatable(plt.gca())
+        color_ax = ax_divider.append_axes('right', size='5%', pad=0.05)
+        colorbar = plt.colorbar(cax=color_ax, ticks=colorticks_locations)
+        colorbar.ax.set_ylabel('Vibration [g]')
+        colorbar.ax.set_yticklabels(colorticks_labels)
+
         if show:
             plt.show()
         if save_as is not None:
@@ -85,4 +103,4 @@ if __name__ == '__main__':
     for test in raw_data.tests + raw_data.saved_tests:
         spectrogram = Spectrogram(test)
         spectrogram.save_data()
-        spectrogram.downsampled(target_shape=(512, 196)).save_plots(filter=utils.quantile_filter)
+        spectrogram.reshaped(target_shape=(800, 400)).save_plots(filter=utils.quantile_filter)
