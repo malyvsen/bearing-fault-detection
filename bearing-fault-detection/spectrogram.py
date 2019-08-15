@@ -89,7 +89,7 @@ class Spectrogram:
 
     def save_plots(self, dir=None, **kwargs):
         if dir is None:
-            dir = f'spectrograms/{test.frequency}hz'
+            dir = f'spectrograms/{self.test.frequency}hz'
         os.makedirs(dir, exist_ok=True)
         for channel in range(self.test.num_channels):
             path = os.path.join(dir, f'test{self.test.number}_channel{channel}.svg')
