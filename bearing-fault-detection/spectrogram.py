@@ -5,7 +5,6 @@ import matplotlib
 if __name__ == '__main__':
     matplotlib.use('Agg')
 import matplotlib.pyplot as plt
-from mpl_toolkits.axes_grid1 import make_axes_locatable
 from tqdm import tqdm
 import raw_data
 import utils
@@ -77,12 +76,11 @@ class Spectrogram:
             index = np.unravel_index(np.argmin(np.abs(image_filtered - brightness)), image_filtered.shape)
             amplitude = image_unfiltered[index]
             colorticks_labels.append('{:.1f}'.format(amplitude))
-        ax_divider = make_axes_locatable(plt.gca())
-        color_ax = ax_divider.append_axes('right', size='5%', pad=0.05)
-        colorbar = plt.colorbar(cax=color_ax, ticks=colorticks_locations)
+        colorbar = plt.colorbar(ticks=colorticks_locations)
         colorbar.ax.set_ylabel('Vibration [g]')
         colorbar.ax.set_yticklabels(colorticks_labels)
 
+        plt.title(title if title is not None else f'Test {self.test.number}, channel {channel} @ {self.test.frequency} Hz')
         if show:
             plt.show()
         if save_as is not None:
